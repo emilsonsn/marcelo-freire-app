@@ -15,25 +15,14 @@ export class UserService {
 
   constructor(
     private readonly _http: HttpClient
-  ) {}
+  ) {
+  }
 
-  public getUsers(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<User>> {
-    const params: any = {
-      page: pageControl?.page?.toString() || '1',
-      take: pageControl?.take?.toString() || '10',
-      orderField: pageControl?.orderField || 'id',
-      order: pageControl?.order || 'ASC',
-      search_term: pageControl?.search_term || '' // Adiciona o search_term
-    };
+  public getUsers(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<User>> {
+    const paginate = Utils.mountPageControl(pageControl);
+    const filterParams = Utils.mountPageControl(filters);
 
-    if (filters) {
-      Object.assign(params, filters);
-    }
-
-    return this._http.get<ApiResponsePageable<User>>(
-      `${environment.api}/${this.sessionEndpoint}/search`,
-      { params }
-    );
+    return this._http.get<ApiResponsePageable<User>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
   public getCards(): Observable<ApiResponse<UserCards>> {
@@ -52,17 +41,20 @@ export class UserService {
     return this._http.post<ApiResponse<User>>(`${environment.api}/${this.sessionEndpoint}/create`, user);
   }
 
+  // return this._http.post<ApiResponse<User>>(`${environment.api}/open/user/${token}`, user);
+
   public patchUser(id: number, user: FormData): Observable<ApiResponse<User>> {
     return this._http.post<ApiResponse<User>>(`${environment.api}/${this.sessionEndpoint}/${id}?_method=PATCH`, user);
   }
 
   public updateStatus(id: number, newStatus: UserStatus): Observable<ApiResponse<User>> {
-    return this._http.patch<ApiResponse<User>>(`${environment.api}/${this.sessionEndpoint}/status/${id}`, { status: newStatus });
+    return this._http.patch<ApiResponse<User>>(`${environment.api}/${this.sessionEndpoint}/status/${id}`, {status: newStatus});
   }
 
   public deleteUser(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/${id}`);
   }
+
 
   public inviteUser(email: string, cellphone: number): Observable<ApiResponse<string>> {
     return this._http.post<ApiResponse<string>>(`${environment.api}/${this.sessionEndpoint}/invite`, {
@@ -72,22 +64,24 @@ export class UserService {
   }
 
   recoverPassword(email: string): Observable<any> {
-    return this._http.post<any>(`${environment.api}/recoverPassword`, { email });
+    return this._http.post<any>(`${environment.api}/recoverPassword`, {email});
   }
 
   public resetPassword(token: string, password: string): Observable<ApiResponse<string>> {
-    return this._http.post<ApiResponse<string>>(`${environment.api}/open/${this.sessionEndpoint}/reset-password/${token}`, { password: password });
+    return this._http.post<ApiResponse<string>>(`${environment.api}/open/${this.sessionEndpoint}/reset-password/${token}`, {password: password});
   }
 
   public validateCode(code: string): Observable<ApiResponse<string>> {
-    return this._http.post<ApiResponse<string>>(`${environment.api}/validate-code?_method=GET`, { code });
+    return this._http.post<ApiResponse<string>>(`${environment.api}/validate-code?_method=GET`, {code})
   }
 
   public validateToken(token: string): Observable<ApiResponse<string>> {
-    return this._http.post<ApiResponse<string>>(`${environment.api}/open/${this.sessionEndpoint}/check-token`, { token: token });
+    return this._http.post<ApiResponse<string>>(`${environment.api}/open/${this.sessionEndpoint}/check-token`, {token: token})
   }
 
+  // Position Service
   public getPositionsUser(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<UserPosition>> {
+
     return this._http.get<ApiResponsePageable<UserPosition>>(`${environment.api}/${this.sessionEndpoint}/position/search`);
   }
 
@@ -99,7 +93,9 @@ export class UserService {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/position/${id}`);
   }
 
+  // Sector Service
   public getSectorsUser(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<UserSector>> {
+
     return this._http.get<ApiResponsePageable<UserSector>>(`${environment.api}/${this.sessionEndpoint}/sector/search`);
   }
 
@@ -111,7 +107,7 @@ export class UserService {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/sector/${id}`);
   }
 
-  getUsersAll(): Observable<ApiResponse<User[]>> {
+  getUsersAll() {
     return this._http.get<ApiResponse<User[]>>(`${environment.api}/${this.sessionEndpoint}/all`);
   }
 

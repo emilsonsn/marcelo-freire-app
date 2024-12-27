@@ -12,8 +12,6 @@ import { finalize } from 'rxjs';
 })
 export class TableUserComponent {
   @Input()
-  users: User[]=[];
-  @Input()
   searchTerm?: string = '';
 
   @Input()
@@ -28,7 +26,7 @@ export class TableUserComponent {
   @Output()
   onDeleteUserClick: EventEmitter<number> = new EventEmitter<number>();
 
-  
+  public users: User[] = [];
 
   public columns = [
     {
@@ -113,19 +111,19 @@ export class TableUserComponent {
   }
 
   search(): void {
-    this.loading = true;
-  
+    this._initOrStopLoading();
+
     this._userService
-      .getUsers(this.pageControl)
-      .pipe(finalize(() => (this.loading = false)))
+      .getUsers(this.pageControl, this.filters)
+      .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe((res) => {
         this.users = res.data;
-        this.pageControl.page = res.current_page;
+
+        this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;
         this.pageControl.pageCount = res.last_page;
       });
   }
-  
 
   onClickOrderBy(slug: string, order: boolean) {
     if (!order) {
