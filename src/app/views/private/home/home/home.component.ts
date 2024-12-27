@@ -38,32 +38,32 @@ export class HomeComponent {
       icon_description: 'fa-solid fa-calendar-day',
       background: '#FC9108',
       title: formatCurrency(+this.dashboardCards().ordersByDay.toString(), 'pt-BR', 'R$'),
-      category: 'Compras',
-      description: 'Total de compras do dia',
+      category: 'Serviços',
+      description: 'Total de Serviços do dia',
     },
     {
       icon: 'fa-solid fa-truck-fast',
       icon_description: 'fa-solid fa-calendar-week',
       background: '#4CA750',
       title: formatCurrency(+this.dashboardCards().ordersByWeek.toString(), 'pt-BR', 'R$'),
-      category: 'Compras',
-      description: 'Total de compras da semana',
+      category: 'Serviços',
+      description: 'Total de Serviços da semana',
     },
     {
       icon: 'fa-solid fa-shop',
       icon_description: 'fa-regular fa-calendar',
       background: '#E9423E',
       title: formatCurrency(+this.dashboardCards().ordersByMonth.toString(), 'pt-BR', 'R$'),
-      category: 'Compras',
-      description: 'Total de compras do mês',
+      category: 'Serviços',
+      description: 'Total de Serviços do mês',
     },
     {
       icon: 'fa-solid fa-money-check-dollar',
       icon_description: 'fa-solid fa-calendar',
       background: '#0AB2C7',
       title: formatCurrency(+this.dashboardCards().ordersByYear.toString(), 'pt-BR', 'R$'),
-      category: 'Compras',
-      description: 'Total de compras do ano',
+      category: 'Serviços',
+      description: 'Total de Serviços do ano',
     },
   ]);
   itemsRequests: Signal<ISmallInformationCard[]> = computed<ISmallInformationCard[]>(() => [
@@ -71,15 +71,15 @@ export class HomeComponent {
       icon: 'fa-solid fa-clock',
       background: '#FC9108',
       title: this.dashboardCards().pendingOrders,
-      category: 'Pedidos',
-      description: 'Pedidos pendentes',
+      category: 'Serviços',
+      description: 'Serviços pendentes',
     },
     {
       icon: 'fa-solid fa-envelope-open',
       // icon_description: 'fa-solid fa-calendar-day',
       // background: '#17a2b8',
       title: this.dashboardCards().awaitingFinanceOrders,
-      category: 'Pedidos',
+      category: 'Serviços',
       description: 'Solicitações em aberto',
     },
     {
@@ -87,15 +87,15 @@ export class HomeComponent {
       // icon_description: 'fa-solid fa-calendar-day',
       background: '#dc3545',
       title: this.dashboardCards().solicitationPendings,
-      category: 'Pedidos',
-      description: 'Pedidos vencidos',
+      category: 'Serviços',
+      description: 'Serviços vencidos',
     }, {
       icon: 'fa-solid fa-check-circle',
       // icon_description: 'fa-solid fa-calendar-day',
       background: '#28a745',
       title: this.dashboardCards().solicitationFinished,
-      category: 'Pedidos',
-      description: 'Pedidos resolvidos',
+      category: 'Serviços',
+      description: 'Serviços resolvidos',
     },
   ]);
 
@@ -104,8 +104,8 @@ export class HomeComponent {
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [{
-        label: 'Compras',
-        data: [], // Dados de compras por mês
+        label: 'Serviços',
+        data: [], // Dados de Serviços por mês
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -132,8 +132,8 @@ export class HomeComponent {
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [{
-        label: 'Pedidos',
-        data: [10, 150, 180, 300, 170, 80, 240, 250, 150, 210, 180, 190], // Dados de compras por mês
+        label: 'Serviços',
+        data: [10, 150, 180, 300, 170, 80, 240, 250, 150, 210, 180, 190], // Dados de Serviços por mês
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1
