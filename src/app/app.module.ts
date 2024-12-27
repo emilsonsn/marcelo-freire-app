@@ -19,6 +19,8 @@ import { AuthInterceptorService } from '@services/auth-interceptor.service';
 import { BrowserstateInterceptor } from './interceptors/browserstate.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 registerLocaleData(localePt, 'pt-BR');
 

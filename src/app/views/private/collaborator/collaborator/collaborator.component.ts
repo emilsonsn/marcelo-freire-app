@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {DialogCollaboratorComponent} from '@shared/dialogs/dialog-collaborator/dialog-collaborator.component';
@@ -14,9 +14,11 @@ import {UserService} from '@services/user.service';
   templateUrl: './collaborator.component.html',
   styleUrl: './collaborator.component.scss',
 })
-export class CollaboratorComponent {
+export class CollaboratorComponent implements OnInit {
   public loading: boolean = false;
-
+  public searchTerm: string = '';
+  public collaborators: User[] = [];
+  public filteredCollaborators: User[] = []; 
   protected itemsRequests: ISmallInformationCard[] = [
     {
       icon: 'fa-solid fa-circle-check',
@@ -40,7 +42,6 @@ export class CollaboratorComponent {
       description: 'Colaboradores totais',
     },
   ]
-
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
@@ -48,15 +49,13 @@ export class CollaboratorComponent {
     private readonly _userService: UserService
   ) {
   }
-
   ngOnInit(): void {
     this._getCards();
+    this._getCollaborators();
   }
-
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
-
   openDialogCollaborator(user?: User) {
     this._dialog
       .open(DialogCollaboratorComponent, {
@@ -73,12 +72,10 @@ export class CollaboratorComponent {
             this._patchCollaborator(res);
             return;
           }
-
           this._postCollaborator(res);
         }
       });
   }
-
   _getCards() {
     this._initOrStopLoading();
 
@@ -116,7 +113,6 @@ export class CollaboratorComponent {
         },
       });
   }
-
   _patchCollaborator(collaborator: FormData) {
     this._initOrStopLoading();
     const id = +collaborator.get('id');
@@ -134,7 +130,6 @@ export class CollaboratorComponent {
         },
       });
   }
-
   _postCollaborator(collaborator: User) {
     this._initOrStopLoading();
 
@@ -179,4 +174,47 @@ export class CollaboratorComponent {
         },
       });
   }
+  private _getCollaborators(): void {
+    this._initOrStopLoading();
+    this._userService
+      .getUsers()
+      .pipe(finalize(() => this._initOrStopLoading()))
+      .subscribe({
+        next: (res) => {
+          if (res.data && res.data.length > 0){
+
+            this.collaborators = res.data;
+            this.filteredCollaborators = [...this.collaborators];
+          }else{
+            this.collaborators = [];
+            this.filteredCollaborators = [];
+          }
+        },
+        error: (err) => {
+          this._toastr.error(err.error.error);
+        },
+      });
+  }
+  onSearchChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const searchTerm = target.value.trim();
+  
+    this.loading = true;
+    this._userService.getUsers({ search_term: searchTerm })
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (res) => {
+          this.collaborators = res.data; 
+        },
+        error: (err) => {
+          this.collaborators = [];
+          this._toastr.error('Erro ao buscar colaboradores.');
+        }
+      });
+  }
+  
+  
 }
+  
+
+

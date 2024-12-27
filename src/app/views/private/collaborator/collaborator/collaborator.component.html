@@ -1,14 +1,33 @@
-
 <div class="mt-5 d-flex justify-content-end">
+  <input 
+    type="text" 
+    class="form-control" 
+    placeholder="Pesquisar Colaborador" 
+    (input)="onSearchChange($event)" 
+  >
   <button matRipple class="button yellow" (click)="openDialogCollaborator()">
     <i class="fa-solid fa-circle-plus"></i> Novo Colaborador
   </button>
 </div>
 
 <div id="componentTable" class="col-12 mt-4">
-  <app-table-users
-    [loading]="loading"
-    (onUserClick)="openDialogCollaborator($event)"
-    (onDeleteUserClick)="onDeleteCollaborator($event)">
-  </app-table-users>
+  <!-- Exibe a mensagem de carregamento enquanto busca -->
+  <div *ngIf="loading" class="text-center">
+    <p>Carregando colaboradores...</p>
+  </div>
+
+  <!-- Exibe mensagem quando não há colaboradores -->
+  <div *ngIf="!loading && collaborators.length === 0" class="text-center">
+    <p>Nenhum colaborador encontrado.</p>
+  </div>
+
+  <!-- Tabela de colaboradores -->
+  <div *ngIf="!loading && collaborators.length > 0">
+    <app-table-users
+      [users]="collaborators"
+      [loading]="loading"
+      (onUserClick)="openDialogCollaborator($event)"
+      (onDeleteUserClick)="onDeleteCollaborator($event)">
+    </app-table-users>
+  </div>
 </div>
