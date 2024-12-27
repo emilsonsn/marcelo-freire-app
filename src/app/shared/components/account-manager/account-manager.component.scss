@@ -16,6 +16,7 @@ main {
   }
 
   .form-section {
+    background-color: #ffffff;
     flex-grow: 0.5;
     padding: 0 35px;
     max-width: 500px;
@@ -24,13 +25,15 @@ main {
     align-items: start;
 
     .form-main {
+      width: 100%;
       padding-top: 35px;
       flex: 1;
       display: flex;
       flex-direction: column;
 
       img {
-        width: 40%;
+        width: 80%;
+        margin: 0 auto;
       }
 
       .form-container {
@@ -59,7 +62,7 @@ main {
   .display-animation {
     gap: 0.5rem;
     flex-grow: 1;
-    background-color: $primary;
+    background-color: #002240;
     color: white;
     text-transform: uppercase;
   }
