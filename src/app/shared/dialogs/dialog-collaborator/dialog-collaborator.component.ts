@@ -42,11 +42,8 @@ export class DialogCollaboratorComponent {
       id: [null],
       name: [null, [Validators.required]],
       cpf_cnpj: [null, [Validators.required]],
-      birth_date: [null, [Validators.required]],
-      company_position_id: [null, [Validators.required]],
-      sector_id: [null, [Validators.required]],
+      birth_date: [null],
       phone: [null, [Validators.required]],
-      whatsapp: [null, [Validators.required]],
       email: [null, [Validators.required]],
     })
 

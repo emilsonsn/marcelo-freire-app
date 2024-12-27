@@ -32,7 +32,7 @@ export class LayoutPrivateComponent {
     {
       label: 'Colaboradores',
       icon: 'fa-solid fa-user-tie',
-      route: '/painel/provider'
+      route: '/painel/collaborator'
     },
     {
       label: 'Clientes',

@@ -11,59 +11,19 @@
   <form [formGroup]="form">
     <div class="row">
       <div class="col-12 mb-3">
-        <div class="profile-upload">
-          <input type="file" id="fileInput" (change)="onFileSelected($event)" accept="image/*" hidden>
-          <div class="upload-container" (click)="triggerFileInput()" [ngClass]="{'drag-over': isDragOver}"
-               (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-            <div class="upload-placeholder" *ngIf="!profileImage">
-              <i class="fa-solid fa-upload"></i>
-              <p>Arraste a imagem aqui ou clique para fazer upload</p>
-            </div>
-            <img *ngIf="profileImage" [src]="profileImage" alt="Foto de Perfil" class="uploaded-image">
-            <div *ngIf="profileImage" class="remove-image" (click)="removeImage($event)">
-              <i class="fa-solid fa-trash"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Nome</mat-label>
           <input matInput type="text" formControlName="name">
         </mat-form-field>
       </div>
-      <div class="col-12 mb-3">
+
+      <div class="col-md-6 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>E-mail</mat-label>
           <input matInput type="email" formControlName="email" pattern="{{ utils.patternEmail }}">
         </mat-form-field>
       </div>
-      <div class="col-md-6 col-12 mb-3">
-        <mat-form-field appearance="outline">
-          <mat-label>CPF/CNPJ</mat-label>
-          <input matInput type="text" formControlName="cpf_cnpj" mask="000.000.000-00||00.000.000/0000-00">
-        </mat-form-field>
-      </div>
-      <div class=" col-md-6 col-12 mb-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Data de nascimento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="birth_date">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="col-md-6 col-12 mb-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Cargo</mat-label>
-          <mat-select formControlName="company_position_id">
-            <mat-option *ngFor="let type of userPositionEnum" [value]="type.id">
-              {{ type.position | companyPosition}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      
+
       <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
@@ -74,6 +34,23 @@
             (xx)xxxx-xxxx.</mat-error>
         </mat-form-field>
       </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>CPF/CNPJ</mat-label>
+          <input matInput type="text" formControlName="cpf_cnpj" mask="000.000.000-00||00.000.000/0000-00">
+        </mat-form-field>
+      </div>
+
+      <div class=" col-md-6 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Data de nascimento</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birth_date">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      
     </div>
   </form>
 

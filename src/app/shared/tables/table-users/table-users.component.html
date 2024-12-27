@@ -43,6 +43,16 @@
               class="table-line-hover"
               style="outline: none; cursor: pointer"
             >
+            <td>
+              <div>
+                {{ collaborator.name }}
+              </div>
+            </td>
+            <td>
+              <div class="text-center">
+                {{ collaborator?.email }}
+              </div>
+            </td>
               <td>
                 <div class="text-center">
                   {{ collaborator?.cpf_cnpj | cpfCnpjMask }}
@@ -55,17 +65,7 @@
               </td>
               <td>
                 <div class="text-center">
-                  {{ collaborator?.company_position?.position }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ collaborator?.sector?.sector }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ collaborator?.email }}
+                  {{ collaborator?.phone }}
                 </div>
               </td>
               <td>

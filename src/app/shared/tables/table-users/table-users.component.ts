@@ -36,6 +36,12 @@ export class TableUserComponent {
       align: "start",
     },
     {
+      slug: "email",
+      order: true,
+      title: "E-mail",
+      align: "justify-content-center",
+    },
+    {
       slug: "cpf_cnpj",
       order: true,
       title: "CPF/CNPJ",
@@ -50,13 +56,7 @@ export class TableUserComponent {
     {
       slug: "phone",
       order: true,
-      title: "Whatsapp",
-      align: "justify-content-center",
-    },
-    {
-      slug: "email",
-      order: true,
-      title: "E-mail",
+      title: "Celular",
       align: "justify-content-center",
     },
     {

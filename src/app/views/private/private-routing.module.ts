@@ -19,22 +19,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'requests',
-        loadChildren: () => import('./requests/requests.module').then(m => m.RequestsModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'requests'
-        }
-      },
-      {
-        path: 'collaborator',
-        loadChildren: () => import('./collaborator/collaborator.module').then(m => m.CollaboratorModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'collaborator'
-        }
-      },
-      {
         path: 'services',
         loadChildren: () => import('./services/services.module').then(m => m.ServicesModule),
         canActivate: [permissionGuard],
@@ -43,11 +27,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'tasks',
-        loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
+        path: 'collaborator',
+        loadChildren: () => import('./collaborator/collaborator.module').then(m => m.CollaboratorModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'tasks'
+          page: 'collaborator'
         }
       },
       {
