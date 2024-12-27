@@ -6,14 +6,9 @@ export interface User {
   cpf : string;
   cpf_cnpj: string;
   birth_date: Date;
-  company_position_id: string;
-  sector_id: string;
-  whatsapp: number;
-  status : UserStatus;
+  role: string;
   createdAt : string;
   updatedAt : string;
-  admin?: boolean;
-  photo?: string;
 
   sector?: UserSector;
   company_position?: UserPosition;

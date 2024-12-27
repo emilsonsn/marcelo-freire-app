@@ -48,19 +48,7 @@ export class TableUserComponent {
       align: "justify-content-center",
     },
     {
-      slug: "position",
-      order: true,
-      title: "Cargo",
-      align: "justify-content-center",
-    },
-    {
-      slug: "sector",
-      order: true,
-      title: "Setor",
-      align: "justify-content-center",
-    },
-    {
-      slug: "cellphone",
+      slug: "phone",
       order: true,
       title: "Whatsapp",
       align: "justify-content-center",

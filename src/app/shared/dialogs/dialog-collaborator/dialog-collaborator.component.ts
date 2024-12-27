@@ -54,9 +54,6 @@ export class DialogCollaboratorComponent {
       this.isNewCollaborator = false;
       this.title = 'Editar colaborador';
       this._fillForm(this._data.user);
-      if (this._data.user.photo) {
-        this.profileImage = this._data.user.photo
-      }
     }
 
     this.updateSectorsUser();

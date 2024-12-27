@@ -25,45 +25,20 @@ export class LayoutPrivateComponent {
       active: true
     },
     {
-      label: 'Pedidos',
-      icon: 'fa-solid fa-box',
-      route: '/painel/orders'
-    },
-    {
-      label: 'Solicitações',
-      icon: 'fa-solid fa-bookmark',
-      route: '/painel/requests'
-    },
-    {
-      label: 'Colaboradores',
-      icon: 'fa-solid fa-users',
-      route: '/painel/collaborator'
-    },
-    {
-      label: 'Fornecedores',
-      icon: 'fa-solid fa-truck',
-      route: '/painel/provider'
-    },
-    {
-      label: 'Obras',
-      icon: 'fa-solid fa-person-digging',
-      route: '/painel/construction'
-    },
-    {
-      label: 'Clientes/Contratantes',
-      icon: 'fa-solid fa-user-tie',
-      route: '/painel/client'
-    },
-    {
       label: 'Serviços',
-      icon: 'fa-solid fa-tools',
+      icon: 'fa-solid fa-photo-film',
       route: '/painel/services'
     },
     {
-      label: 'Tarefas',
-      icon: 'fa-solid fa-tasks',
-      route: '/painel/tasks'
-    }
+      label: 'Colaboradores',
+      icon: 'fa-solid fa-user-tie',
+      route: '/painel/provider'
+    },
+    {
+      label: 'Clientes',
+      icon: 'fa-solid fa-people-group',
+      route: '/painel/client'
+    },
   ]
 
   protected isMobile: boolean = window.innerWidth >= 1000;
@@ -90,11 +65,9 @@ export class LayoutPrivateComponent {
       if(user) {
         this.user = user;
 
-        if(user?.company_position.position == 'Requester')
+        if(user?.role == 'Manager')
           this.permitedMenuItem = this.menuItem.filter(item =>
-            item.label == 'Pedidos' ||
-            item.label == 'Solicitações' || 
-            item.label == 'Fornecedores'
+            item.label !== 'Usuários'
           );
         else
           this.permitedMenuItem = this.menuItem;

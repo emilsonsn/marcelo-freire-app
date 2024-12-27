@@ -44,20 +44,6 @@
               style="outline: none; cursor: pointer"
             >
               <td>
-                <div
-                  class="d-flex align-items-center gap-2"
-                  style="white-space: nowrap"
-                >
-                  <app-avatar
-                    [imageUrl]="collaborator?.photo"
-                    [altText]="collaborator?.name"
-                    [color]="'#e7b403'"
-                    [onCircle]="true"
-                  ></app-avatar>
-                  {{ collaborator?.name }}
-                </div>
-              </td>
-              <td>
                 <div class="text-center">
                   {{ collaborator?.cpf_cnpj | cpfCnpjMask }}
                 </div>
@@ -75,11 +61,6 @@
               <td>
                 <div class="text-center">
                   {{ collaborator?.sector?.sector }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ collaborator?.whatsapp | phoneMask }}
                 </div>
               </td>
               <td>
