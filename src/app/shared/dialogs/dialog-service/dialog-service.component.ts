@@ -4,6 +4,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angu
 import { Service } from '@models/service';
 import { ServiceService } from '@services/service.service';
 import { DialogTypeServiceComponent } from '../dialog-type-service/dialog-type-service.component';
+import { Client } from '@models/client';
+import { ClientService } from '@services/client.service';
+import { UserService } from '@services/user.service';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-dialog-service',
@@ -21,21 +25,28 @@ export class DialogServiceComponent {
 
   public servicesTypeEnum;
 
+  public clients: Client[];
+  public users: User[];
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     private readonly _data: {service: Service},
     private readonly _dialogRef: MatDialogRef<DialogServiceComponent>,
     private readonly _fb: FormBuilder,
     private readonly _dialog: MatDialog,
-    private readonly _serviceService : ServiceService
+    private readonly _serviceService : ServiceService,
+    private readonly _clientService : ClientService,
+    private readonly _userService : UserService,
   ) { }
 
   ngOnInit(): void {
 
   this.form = this._fb.group({
       id: [null],
-      name: [null, [Validators.required]],
-      service_type_id: [null, [Validators.required]],
+      title: [null, [Validators.required]],
+      description: [null],
+      client_id: [null, [Validators.required]],
+      users: [null, [Validators.required]],
     })
 
     if (this._data?.service) {
@@ -44,36 +55,26 @@ export class DialogServiceComponent {
       this._fillForm(this._data.service);
     }
 
-    this.updateTypeServices();
+    this.getClients();
+    this.getUsers();
   }
 
-  public openDialogTypeService() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '1000px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogTypeServiceComponent,
-      {
-        ...dialogConfig
-      })
-      .afterClosed()
-      .subscribe( (res) => {
-        if(!res) {
-          this.updateTypeServices();
-        }
-      })
+  getClients(){
+    this._clientService.getAll()
+    .subscribe({
+      next: (res) => {
+        this.clients = res.data;
+      }
+    })
   }
 
-  // Utils
-  public updateTypeServices() {
-    this._serviceService.getTypeServices()
-      .subscribe(res => {
-        this.servicesTypeEnum = res.data;;
-      })
+  getUsers(){
+    this._userService.getUsers({}, {status: 'Manager'})
+    .subscribe({
+      next: (res) => {
+        this.users = res.data;
+      }
+    })
   }
 
   private _fillForm(service: Service): void {

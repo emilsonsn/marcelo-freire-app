@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { PageControl, ApiResponsePageable, ApiResponse, DeleteApiResponse } from '@models/application';
 import { Client } from '@models/client';
+import { Utils } from '@shared/utils';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,8 +16,13 @@ export class ClientService {
   ) { }
 
   public getClients(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<Client>> {
+    const paginate = Utils.mountPageControl(pageControl);
+    const filterParams = Utils.mountPageControl(filters);
+    return this._http.get<ApiResponsePageable<Client>>(`${environment.api}/client/search?${paginate}${filterParams}`);
+  }
 
-    return this._http.get<ApiResponsePageable<Client>>(`${environment.api}/client/search`);
+  public getAll(): Observable<ApiResponsePageable<Client>> {
+    return this._http.get<ApiResponsePageable<Client>>(`${environment.api}/client/all`);
   }
 
   public postClient(client: Client): Observable<ApiResponse<Client>> {

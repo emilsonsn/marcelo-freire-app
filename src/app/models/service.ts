@@ -1,8 +1,9 @@
 export interface Service {
   id?: number;
-  name: string;
-  service_type_id: number;
-  type: ServiceType;
+  title: string;
+  client_id: number;
+  descripton?: string;
+  users: number[];
 }
 
 export interface ServiceType {

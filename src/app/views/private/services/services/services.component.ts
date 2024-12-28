@@ -14,6 +14,7 @@ import { finalize } from 'rxjs';
 })
 export class ServicesComponent {
   public loading: boolean = false;
+  public services: Service[];
 
   constructor(
     private readonly _dialog: MatDialog,
@@ -23,6 +24,17 @@ export class ServicesComponent {
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
+  }
+
+  getServices(){
+    this._initOrStopLoading();
+
+    this._serviceService
+     .getServices()
+     .pipe(finalize(() => this._initOrStopLoading()))
+     .subscribe((res) => {
+         this.services = res.data;
+       });
   }
 
   openDialogService(service?: Service) {
