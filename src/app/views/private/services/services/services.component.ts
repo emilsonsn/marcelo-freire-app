@@ -29,9 +29,8 @@ export class ServicesComponent {
     this.getServices();
 
     this.form = this._formBuilder.group({
-      title: [''],
+      search_term: [''],
       status: [''],
-      // David: Terminar aqui e colocar os filtros
     });
     this.form
       .valueChanges
@@ -48,39 +47,13 @@ export class ServicesComponent {
   getServices(filters?: any) {
     this._initOrStopLoading();
   
-    // Configurar os filtros para enviar somente os valores preenchidos
-    const queryFilters = {};
-    if (filters?.title) {
-      queryFilters['title'] = filters.title;
-    }
-    if (filters?.status) {
-      queryFilters['status'] = filters.status;
-    }
-  
     this._serviceService
-      .getServices({}, queryFilters)
+      .getServices({}, filters)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe((res) => {
-        // Filtrar serviços de acordo com os filtros definidos
-        if (filters?.title || filters?.status) {
-          this.services = res.data.filter((service) => {
-            const matchTitle = filters.title
-              ? service.title.includes(filters.title)
-              : true; // Ignora se não houver filtro de título
-            const matchStatus = filters.status
-              ? service.status === filters.status
-              : true; // Ignora se não houver filtro de estado
-            return matchTitle && matchStatus;
-          });
-        } else {
-          // Se não houver filtros, exibe todos os serviços
           this.services = res.data;
-        }
       });
   }
-  
-  
-  
 
   openDialogService(service?: Service) {
     this._dialog

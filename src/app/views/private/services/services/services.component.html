@@ -4,16 +4,17 @@
     <div class="row align-items-center">
       <div class="col-md-5">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Título</mat-label>
-          <input matInput type="text" formControlName="title" placeholder="Buscar por título" />
+          <mat-label>Buscar...</mat-label>
+          <input matInput type="text" formControlName="search_term" placeholder="Buscar" />
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Estado</mat-label>
+          <mat-label>Status</mat-label>
           <mat-select formControlName="status">
-            <mat-option value="pending">Pendente</mat-option>
-            <mat-option value="deliver">Entregar</mat-option>
+            <mat-option value=""></mat-option>
+            <mat-option value="Pending">Pendente</mat-option>
+            <mat-option value="Deliver">Entregar</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

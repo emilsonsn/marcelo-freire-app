@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { ApiResponse, ApiResponsePageable, DeleteApiResponse, PageControl } from '@models/application';
 import { Service, ServiceType } from '@models/service';
+import { Utils } from '@shared/utils';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,8 +16,9 @@ export class ServiceService {
   ) { }
 
   public getServices(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<Service>> {
-
-    return this._http.get<ApiResponsePageable<Service>>(`${environment.api}/service/search`);
+    const paginate = Utils.mountPageControl(pageControl);
+    const filterParams = Utils.mountPageControl(filters);
+    return this._http.get<ApiResponsePageable<Service>>(`${environment.api}/service/search?${paginate}${filterParams}`);
   }
 
   public postService(service: Service): Observable<ApiResponse<Service>> {
