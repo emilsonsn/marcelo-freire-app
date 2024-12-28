@@ -1,19 +1,41 @@
+
 <div class="mt-5 d-flex justify-content-end">
-  <button matRipple class="button yellow" (click)="openDialogService()">
-    <i class="fa-solid fa-circle-plus"></i> Novo serviço
-  </button>
+  <form [formGroup]="form" class="mb-4">
+    <div class="row align-items-center">
+      <div class="col-md-5">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Título</mat-label>
+          <input matInput type="text" formControlName="title" placeholder="Buscar por título" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="pending">Pendente</mat-option>
+            <mat-option value="deliver">Entregar</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3 text-end">
+        <button matRipple class="button yellow w-110" (click)="openDialogService()">
+          <i class="fa-solid fa-circle-plus"></i> Novo serviço
+        </button>
+      </div>
+    </div>
+  </form>
+  
 </div>
 
-
-<div class="cards" >
-  @if(loading) {
-    <div matRipple class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
-      <mat-spinner></mat-spinner>
-    </div>
-  }
-  <div class="card"
+<div class="cards">
+  <div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div
+    class="card"
     *ngFor="let service of services"
-    (click)="openDialogService(service)">
+    (click)="openDialogService(service)"
+  >
     <div>
       <i class="fa-solid fa-caret-right"></i>
       {{ service.title }}
@@ -25,7 +47,7 @@
     <div>
       <div [class]="service.status">
         <i class="fa-regular fa-circle-dot"></i>
-        {{ service.status | service_status}}
+        {{ service.status | service_status }}
       </div>
     </div>
     <div>
@@ -34,5 +56,4 @@
       </div>
     </div>
   </div>
-
 </div>

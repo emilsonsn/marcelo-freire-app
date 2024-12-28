@@ -6,7 +6,7 @@ import { ServiceService } from '@services/service.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogServiceComponent } from '@shared/dialogs/dialog-service/dialog-service.component';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import { debounce, debounceTime, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-services',
@@ -29,27 +29,58 @@ export class ServicesComponent {
     this.getServices();
 
     this.form = this._formBuilder.group({
+      title: [''],
+      status: [''],
       // David: Terminar aqui e colocar os filtros
     });
-  }  
+    this.form
+      .valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((form) => {
+        this.getServices(form)
+    });
+  }
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
 
-  getServices(){
+  getServices(filters?: any) {
     this._initOrStopLoading();
-
-    // const filters = this.form.getRawValue();
-    const filters = {};
-
+  
+    // Configurar os filtros para enviar somente os valores preenchidos
+    const queryFilters = {};
+    if (filters?.title) {
+      queryFilters['title'] = filters.title;
+    }
+    if (filters?.status) {
+      queryFilters['status'] = filters.status;
+    }
+  
     this._serviceService
-     .getServices({}, filters)
-     .pipe(finalize(() => this._initOrStopLoading()))
-     .subscribe((res) => {
-         this.services = res.data;
-       });
+      .getServices({}, queryFilters)
+      .pipe(finalize(() => this._initOrStopLoading()))
+      .subscribe((res) => {
+        // Filtrar serviços de acordo com os filtros definidos
+        if (filters?.title || filters?.status) {
+          this.services = res.data.filter((service) => {
+            const matchTitle = filters.title
+              ? service.title.includes(filters.title)
+              : true; // Ignora se não houver filtro de título
+            const matchStatus = filters.status
+              ? service.status === filters.status
+              : true; // Ignora se não houver filtro de estado
+            return matchTitle && matchStatus;
+          });
+        } else {
+          // Se não houver filtros, exibe todos os serviços
+          this.services = res.data;
+        }
+      });
   }
+  
+  
+  
 
   openDialogService(service?: Service) {
     this._dialog
