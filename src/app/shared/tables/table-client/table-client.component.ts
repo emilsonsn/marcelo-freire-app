@@ -116,7 +116,7 @@ export class TableClientComponent {
         next:res => {
             this.clients = res.data;
 
-          this.pageControl.page = res.current_page - 1;
+          this.pageControl.page = res.current_page;
           this.pageControl.itemCount = res.total;
           this.pageControl.pageCount = res.last_page;
       },

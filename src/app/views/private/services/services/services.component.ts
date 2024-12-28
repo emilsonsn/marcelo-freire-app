@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Service } from '@models/service';
 import { ServiceService } from '@services/service.service';
@@ -15,12 +16,22 @@ import { finalize } from 'rxjs';
 export class ServicesComponent {
   public loading: boolean = false;
   public services: Service[];
+  public form: FormGroup;
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
-    private readonly _serviceService: ServiceService
+    private readonly _serviceService: ServiceService,
+    private readonly _formBuilder: FormBuilder
   ) {}
+
+  ngOnInit(){
+    this.getServices();
+
+    this.form = this._formBuilder.group({
+      // David: Terminar aqui e colocar os filtros
+    });
+  }  
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
@@ -29,8 +40,11 @@ export class ServicesComponent {
   getServices(){
     this._initOrStopLoading();
 
+    // const filters = this.form.getRawValue();
+    const filters = {};
+
     this._serviceService
-     .getServices()
+     .getServices({}, filters)
      .pipe(finalize(() => this._initOrStopLoading()))
      .subscribe((res) => {
          this.services = res.data;
@@ -67,6 +81,7 @@ export class ServicesComponent {
       .subscribe({
         next: (res) => {
           if (res.status) {
+            this.getServices();
             this._toastr.success(res.message);
           }
         },
@@ -85,6 +100,7 @@ export class ServicesComponent {
       .subscribe({
         next: (res) => {
           if (res.status) {
+            this.getServices();
             this._toastr.success(res.message);
           }
         },

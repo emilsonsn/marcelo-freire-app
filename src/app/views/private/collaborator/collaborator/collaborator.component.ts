@@ -188,26 +188,6 @@ export class CollaboratorComponent implements OnInit {
         },
       });
   }
-
-  onSearchChange(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    const searchTerm = target.value.trim();
-  
-    this.loading = true;
-    this._userService.getUsers({ search_term: searchTerm })
-      .pipe(finalize(() => this.loading = false))
-      .subscribe({
-        next: (res) => {
-          this.collaborators = res.data; 
-        },
-        error: (err) => {
-          this.collaborators = [];
-          this._toastr.error('Erro ao buscar colaboradores.');
-        }
-      });
-  }
-  
-  
 }
   
 

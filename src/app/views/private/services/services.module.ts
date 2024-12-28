@@ -6,6 +6,7 @@ import { ServicesComponent } from './services/services.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
 import {MatRipple} from "@angular/material/core";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {MatRipple} from "@angular/material/core";
     SharedModule,
     MatDialogModule,
     MatRipple,
+    MatProgressSpinnerModule
   ]
 })
 export class ServicesModule { }

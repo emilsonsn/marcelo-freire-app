@@ -1,0 +1,41 @@
+.cards{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    .card{
+        padding: 15px;
+        cursor: pointer;
+        border: none;
+        box-shadow: 1px 2px 4px 4px rgb(228, 228, 228);
+        width: 95%;
+        max-width: 300px;
+        margin: 10px 10px 10px 0;
+
+        & div{
+            margin: 5px 0;
+        }
+
+        .btn:hover{
+            box-shadow: 1px 1px 2px 2px rgb(233, 233, 233);
+            outline: none !important;
+        }
+
+        .Pending, .Deliver{
+            color: white;
+            border-radius: 20px;
+            padding: 0 5px;
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        .Pending{
+            background: orange;
+        }
+
+        .Deliver{
+            background: green;
+        }
+    }
+}

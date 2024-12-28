@@ -52,7 +52,12 @@ export class DialogServiceComponent {
     if (this._data?.service) {
       this.isNewService = false;
       this.title = 'Editar serviço';
-      this._fillForm(this._data.service);
+
+      const users = this._data?.service.users.map(user => user.id);
+      this._fillForm({
+        ...this._data.service,
+        users: users
+      });
     }
 
     this.getClients();
@@ -77,7 +82,7 @@ export class DialogServiceComponent {
     })
   }
 
-  private _fillForm(service: Service): void {
+  private _fillForm(service): void {
 
     this.form.patchValue(service);
   }
