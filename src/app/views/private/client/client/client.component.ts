@@ -1,26 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Client } from '@models/client';
 import { ClientService } from '@services/client.service';
 import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-client.component';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import { debounce, debounceTime, finalize, pipe } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import {User} from '@models/user';
+import {ISmallInformationCard} from '@models/cardInformation';
+
 
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss'
 })
-export class ClientComponent {
+export class ClientComponent implements OnInit{
   public loading: boolean = false;
+  public clients: Client[] = [];
+  public filteredClients: Client[]= [];
+  public form: FormGroup;
+  public searchTerm: string;
+  
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
-    private readonly _clientService: ClientService
+    private readonly _clientService: ClientService,
+    private readonly _fb: FormBuilder
   ) {}
 
+  ngOnInit(): void {
+    this.form = this._fb.group({
+      search_term: [''],
+    });
+    this.form.get('search_term').valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((search_Term)=>{
+        this.searchTerm = search_Term;
+      });
+
+  }
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
@@ -108,5 +129,6 @@ export class ClientComponent {
         },
       });
   }
+  
 }
 
