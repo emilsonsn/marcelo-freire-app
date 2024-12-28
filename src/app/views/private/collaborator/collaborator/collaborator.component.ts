@@ -4,10 +4,11 @@ import {Router} from '@angular/router';
 import {DialogCollaboratorComponent} from '@shared/dialogs/dialog-collaborator/dialog-collaborator.component';
 import {DialogConfirmComponent} from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import {ToastrService} from 'ngx-toastr';
-import {finalize} from 'rxjs';
+import {debounce, debounceTime, finalize} from 'rxjs';
 import {ISmallInformationCard} from '@models/cardInformation';
 import {User} from '@models/user';
 import {UserService} from '@services/user.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-collaborator',
@@ -16,9 +17,10 @@ import {UserService} from '@services/user.service';
 })
 export class CollaboratorComponent implements OnInit {
   public loading: boolean = false;
-  public searchTerm: string = '';
   public collaborators: User[] = [];
   public filteredCollaborators: User[] = []; 
+  public form: FormGroup;
+  public searchTerm: string;
   protected itemsRequests: ISmallInformationCard[] = [
     {
       icon: 'fa-solid fa-circle-check',
@@ -46,13 +48,25 @@ export class CollaboratorComponent implements OnInit {
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _router: Router,
-    private readonly _userService: UserService
+    private readonly _userService: UserService,
+    private readonly _fb: FormBuilder
   ) {
   }
   ngOnInit(): void {
     this._getCards();
-    this._getCollaborators();
+
+    this.form = this._fb.group({
+      search_term: ['']
+    });
+
+    this.form.get('search_term')
+      .valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((search_term) => {
+        this.searchTerm = search_term;
+      });
   }
+
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
@@ -174,27 +188,7 @@ export class CollaboratorComponent implements OnInit {
         },
       });
   }
-  private _getCollaborators(): void {
-    this._initOrStopLoading();
-    this._userService
-      .getUsers()
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.data && res.data.length > 0){
 
-            this.collaborators = res.data;
-            this.filteredCollaborators = [...this.collaborators];
-          }else{
-            this.collaborators = [];
-            this.filteredCollaborators = [];
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
   onSearchChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const searchTerm = target.value.trim();

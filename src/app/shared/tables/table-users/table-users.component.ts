@@ -93,7 +93,6 @@ export class TableUserComponent {
     else if(filters?.previousValue && filters?.currentValue) {
 			this._onSearch();
 		}
-
   }
 
   private _initOrStopLoading(): void {

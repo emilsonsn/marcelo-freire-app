@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '@shared/shared.module';
 import {MatRipple} from "@angular/material/core";
 import {MatDivider} from "@angular/material/divider";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import {MatDivider} from "@angular/material/divider";
     MatDialogModule,
     MatButtonModule,
     MatRipple,
-    MatDivider
+    MatDivider,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
   ]
 })
 export class CollaboratorModule { }
