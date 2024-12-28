@@ -44,7 +44,7 @@ export class TableClientComponent {
       align: "justify-content-center",
     },
     {
-      slug: "whatsapp",
+      slug: "Telefone",
       order: true,
       title: "Whatsapp",
       align: "justify-content-center",

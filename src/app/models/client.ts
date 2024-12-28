@@ -1,13 +1,13 @@
 export interface Client {
   id?: number;
   name: string;
+  surname?: string;
+  email: string;
   cpf_cnpj: string;
   phone: number;
-  whatsapp: number;
-  email: string;
-  address: string;
-  city: string;
-  state: string;
+  url?: string;
+  gender?: string;
+  is_active?: boolean;
   created_at?: Date;
   updated_at?: Date;
 }
