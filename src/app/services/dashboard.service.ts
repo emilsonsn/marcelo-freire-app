@@ -19,8 +19,8 @@ export class DashboardService {
     return this._http.get<ApiResponse<OrderData>>(`${environment.api}/dashboard/cards`);
   }
 
-  getPurchaseGraphicBar() {
-    return this._http.post<any>(`${environment.api}/dashboard/purchaseGraphic`, {});
+  graphic() {
+    return this._http.get<any>(`${environment.api}/dashboard/graphic`, {});
   }
 
   getPurchaseGraphicLine() {
