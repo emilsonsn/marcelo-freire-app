@@ -87,6 +87,7 @@
     [hidePageSize]="false"
     [pageIndex]="pageControl.page"
     aria-label="Select page"
+    (page)="pageEvent($event)"
   >
   </mat-paginator>
 </div>
