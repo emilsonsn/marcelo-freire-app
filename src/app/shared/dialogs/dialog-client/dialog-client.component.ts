@@ -48,12 +48,11 @@ export class DialogClientComponent {
       name: [null, [Validators.required]],
       cpf_cnpj: [null, [Validators.required]],
       phone: [null, [Validators.required]],
-      whatsapp: [null, [Validators.required]],
       email: [null, [Validators.required]],
-      address: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      number: [null, [Validators.required]],
+      surname: [null],
+      url: [null],
+      gender: [null],
+      is_active: [null],
     })
 
     if (this._data?.client) {
