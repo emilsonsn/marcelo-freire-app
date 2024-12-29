@@ -15,97 +15,48 @@ export class HomeComponent {
 
   dashboardCards = signal<OrderData>(
     {
-      ordersByDay: 0,
-      ordersByWeek: 0,
-      ordersByMonth: 0,
-      ordersByYear: 0,
-      pendingOrders: 0,
-      awaitingFinanceOrders: 0,
-      solicitationPendings: 0,
-      solicitationFinished: 0,
+      totalClients: 0,
+      totalUsers: 0,
+      totalServices: 0,
     }
   );
 
-  constructor(private readonly _dashboardService: DashboardService) {
-    _dashboardService.getDashboardCards().subscribe((c: ApiResponse<OrderData>) => {
-      this.dashboardCards.set(c.data);
-    });
-  }
+  constructor(private readonly _dashboardService: DashboardService) {}
 
   itemsShopping: Signal<ISmallInformationCard[]> = computed<ISmallInformationCard[]>(() => [
     {
-      icon: 'fa-solid fa-cart-plus',
-      icon_description: 'fa-solid fa-calendar-day',
+      icon: 'fa-solid fa-users',
+      icon_description: 'fa-solid fa-users',
       background: '#FC9108',
-      title: formatCurrency(+this.dashboardCards().ordersByDay.toString(), 'pt-BR', 'R$'),
-      category: 'Serviços',
-      description: 'Total de Serviços do dia',
+      title: this.dashboardCards().totalClients,
+      category: 'Clientes',
+      description: 'Total de clientes',
     },
     {
-      icon: 'fa-solid fa-truck-fast',
-      icon_description: 'fa-solid fa-calendar-week',
-      background: '#4CA750',
-      title: formatCurrency(+this.dashboardCards().ordersByWeek.toString(), 'pt-BR', 'R$'),
-      category: 'Serviços',
-      description: 'Total de Serviços da semana',
-    },
-    {
-      icon: 'fa-solid fa-shop',
-      icon_description: 'fa-regular fa-calendar',
+      icon: 'fa-solid fa-user-gear',
+      icon_description: 'fa-solid fa-user-gear',
       background: '#E9423E',
-      title: formatCurrency(+this.dashboardCards().ordersByMonth.toString(), 'pt-BR', 'R$'),
+      title: this.dashboardCards().totalUsers,
+      category: 'Colaboradores',
+      description: 'Total de colaboradores',
+    },
+    {
+      icon: 'fa-solid fa-photo-film',
+      icon_description: 'fa-solid fa-photo-film',
+      background: '#4CA750',
+      title: this.dashboardCards().totalServices,
       category: 'Serviços',
       description: 'Total de Serviços do mês',
     },
-    {
-      icon: 'fa-solid fa-money-check-dollar',
-      icon_description: 'fa-solid fa-calendar',
-      background: '#0AB2C7',
-      title: formatCurrency(+this.dashboardCards().ordersByYear.toString(), 'pt-BR', 'R$'),
-      category: 'Serviços',
-      description: 'Total de Serviços do ano',
-    },
   ]);
-  itemsRequests: Signal<ISmallInformationCard[]> = computed<ISmallInformationCard[]>(() => [
-    {
-      icon: 'fa-solid fa-clock',
-      background: '#FC9108',
-      title: this.dashboardCards().pendingOrders,
-      category: 'Serviços',
-      description: 'Serviços pendentes',
-    },
-    {
-      icon: 'fa-solid fa-envelope-open',
-      // icon_description: 'fa-solid fa-calendar-day',
-      // background: '#17a2b8',
-      title: this.dashboardCards().awaitingFinanceOrders,
-      category: 'Serviços',
-      description: 'Solicitações em aberto',
-    },
-    {
-      icon: 'fa-solid fa-calendar-times',
-      // icon_description: 'fa-solid fa-calendar-day',
-      background: '#dc3545',
-      title: this.dashboardCards().solicitationPendings,
-      category: 'Serviços',
-      description: 'Serviços vencidos',
-    }, {
-      icon: 'fa-solid fa-check-circle',
-      // icon_description: 'fa-solid fa-calendar-day',
-      background: '#28a745',
-      title: this.dashboardCards().solicitationFinished,
-      category: 'Serviços',
-      description: 'Serviços resolvidos',
-    },
-  ]);
-
+  
   lineChart: any = {
     type: 'line',
     data: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [{
         label: 'Serviços',
-        data: [], // Dados de Serviços por mês
+        data: [],
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -157,36 +108,31 @@ export class HomeComponent {
   };
 
   ngOnInit() {
+    this.initChart();
+
+    this._dashboardService
+      .getDashboardCards()
+      .subscribe((c: ApiResponse<OrderData>) => {
+        this.dashboardCards.set(c.data);
+      });
+  }
+
+  public initChart(){
     Chart.register(...registerables);
 
-    // Initialize the charts and store the instances
-    // this.lineChart = new Chart('lineChart', this.lineChart);
     this.barChart = new Chart('barChart', this.barChart);
 
-    this._dashboardService.getPurchaseGraphicBar().subscribe((c: ApiResponse<{ month: string, total: number }[]>) => {
-      const months = c.data.map(d => d.month); // Extract months
-      const totals = c.data.map(d => d.total); // Extract totals
+    this._dashboardService.graphic().subscribe((c: ApiResponse<{ month: string, total: number }[]>) => {
+      const months = c.data.map(d => d.month);
+      const totals = c.data.map(d => d.total);
 
       if (this.barChart && this.barChart instanceof Chart) {
         this.barChart.data.labels = months;
         this.barChart.data.datasets[0].data = totals;
-        this.barChart.update(); // Update chart
+        this.barChart.update();
       }
     });
-
-    /*this._dashboardService.getPurchaseGraphicLine().subscribe((c: ApiResponse<{ month: string, total: number }[]>) => {
-      const months = c.data.map(d => d.month); // Extract months
-      const totals = c.data.map(d => d.total); // Extract totals
-
-      // Ensure charts are initialized before updating
-      if (this.lineChart && this.lineChart instanceof Chart) {
-        this.lineChart.data.labels = months;
-        this.lineChart.data.datasets[0].data = totals;
-        this.lineChart.update(); // Update chart
-      }
-    });*/
   }
-
 
 
 }
