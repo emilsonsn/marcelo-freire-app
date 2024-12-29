@@ -11,11 +11,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MidiasComponent } from './midias/midias.component';
 
 
 @NgModule({
   declarations: [
-    ServicesComponent
+    ServicesComponent,
+    MidiasComponent
   ],
   imports: [
     CommonModule,

@@ -5,7 +5,6 @@ import {environment} from '@env/environment';
 import {ApiResponse, ApiResponsePageable, DeleteApiResponse, PageControl} from '@models/application';
 import {Utils} from '@shared/utils';
 import {Observable} from 'rxjs';
-import {requestCards} from "@models/requestOrder";
 
 @Injectable({
   providedIn: 'root'
@@ -39,10 +38,6 @@ export class RequestService {
 
   public patchRequest(id: number, request: Request): Observable<ApiResponse<Request>> {
       return this._http.post<ApiResponse<Request>>(`${environment.api}/${this.sessionEndpoint}/${id}?_method=PATCH`, request);
-  }
-
-  getCards(): Observable<ApiResponse<requestCards>> {
-    return this._http.get<any>(`${environment.api}/solicitation/cards`, {});
   }
 
 }

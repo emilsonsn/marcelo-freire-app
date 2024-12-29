@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Service } from '@models/service';
 import { ServiceService } from '@services/service.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogServiceComponent } from '@shared/dialogs/dialog-service/dialog-service.component';
+import { SessionService } from '@store/session.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounce, debounceTime, finalize } from 'rxjs';
 
@@ -17,12 +19,15 @@ export class ServicesComponent {
   public loading: boolean = false;
   public services: Service[];
   public form: FormGroup;
+  public isAdmin: boolean = false;
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _serviceService: ServiceService,
-    private readonly _formBuilder: FormBuilder
+    private readonly _formBuilder: FormBuilder,
+    private readonly _sessionService: SessionService,
+    private readonly _route: Router
   ) {}
 
   ngOnInit(){
@@ -38,6 +43,16 @@ export class ServicesComponent {
       .subscribe((form) => {
         this.getServices(form)
     });
+
+    this.loadPosition();
+  }
+
+  public loadPosition(){
+    this._sessionService
+      .getUser()
+      .subscribe((user) => {
+        this.isAdmin = user.role === 'Admin';
+      })
   }
 
   private _initOrStopLoading(): void {
@@ -95,7 +110,13 @@ export class ServicesComponent {
       });
   }
 
-  _postService(service: Service) {
+  goToMidia(event, id){
+    event.preventDefault();
+    event.stopPropagation();
+    this._route.navigate(['/painel/services/' + id])
+  }
+
+  private _postService(service: Service) {
     this._initOrStopLoading();
 
     this._serviceService
@@ -126,7 +147,7 @@ export class ServicesComponent {
       });
   }
 
-  _deleteService(id: number) {
+  private _deleteService(id: number) {
     this._initOrStopLoading();
     this._serviceService
       .deleteService(id)

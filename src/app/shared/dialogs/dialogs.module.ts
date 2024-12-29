@@ -17,8 +17,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {PipesModule} from '@shared/pipes/pipes.module';
 import {DialogConfirmComponent} from './dialog-confirm/dialog-confirm.component';
-import {FiltersModule} from './filters/filters.module';
-import {DialogOrderComponent} from './dialog-order/dialog-order.component';
 import {DialogCollaboratorComponent} from './dialog-collaborator/dialog-collaborator.component';
 import {CdkTextareaAutosize, TextFieldModule} from '@angular/cdk/text-field';
 import {MatRippleModule} from '@angular/material/core';
@@ -26,9 +24,7 @@ import {DialogProviderComponent} from './dialog-provider/dialog-provider.compone
 import {NgxMaskDirective, NgxMaskPipe} from 'ngx-mask';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {DialogServiceComponent} from './dialog-service/dialog-service.component';
-import {DialogConstructionComponent} from './dialog-construction/dialog-construction.component';
 import {DialogClientComponent} from './dialog-client/dialog-client.component';
-import {DialogRequestComponent} from './dialog-request/dialog-request.component';
 import {DialogTypeProviderComponent} from './dialog-type-provider/dialog-type-provider.component';
 import {TablesModule} from '@shared/tables/tables.module';
 import {DialogTypeServiceComponent} from './dialog-type-service/dialog-type-service.component';
@@ -42,13 +38,10 @@ import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dial
 @NgModule({
   declarations: [
     DialogConfirmComponent,
-    DialogOrderComponent,
     DialogCollaboratorComponent,
     DialogProviderComponent,
     DialogServiceComponent,
-    DialogConstructionComponent,
     DialogClientComponent,
-    DialogRequestComponent,
     DialogTypeProviderComponent,
     DialogTypeServiceComponent,
     DialogTypeUserSectorComponent,
@@ -57,7 +50,6 @@ import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dial
   ],
   imports: [
     CommonModule,
-    FiltersModule,
     TablesModule,
     ComponentsModule,
     DirectivesModule,
