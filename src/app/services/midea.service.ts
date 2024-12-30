@@ -22,9 +22,18 @@ export class MideaService {
     return this._http.get<ApiResponsePageable<Midea>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
+  public getByCode(code): Observable<ApiResponsePageable<Midea>> {    
+    return this._http.get<ApiResponsePageable<Midea>>(`${environment.api}/${this.sessionEndpoint}/code/${code}`);
+  }
+
   public create(midea: FormData): Observable<ApiResponse<Midea>> {
     return this._http.post<ApiResponse<Midea>>(`${environment.api}/${this.sessionEndpoint}/create`, midea);
   }
+
+  public addComment(comment: Comment): Observable<ApiResponse<Comment>> {
+    return this._http.post<ApiResponse<Comment>>(`${environment.api}/${this.sessionEndpoint}/add-comment`, comment);
+  }
+  
 
   public update(id: number, midea: FormData): Observable<ApiResponse<Midea>> {
     return this._http.post<ApiResponse<Midea>>(`${environment.api}/${this.sessionEndpoint}/${id}?_method=PATCH`, midea);

@@ -1,0 +1,40 @@
+<div class="d-flex align-items-center justify-content-between p-4 pb-1">
+  <span class="fw-bold fs-5">Adicionar comentário</span>
+  <div matRipple class="close" (click)="onCancel()">
+    <i class="fa-solid fa-close"></i>
+  </div>
+</div>
+
+<mat-divider class="my-3"></mat-divider>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-md-12 col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Comentário</mat-label>
+          <textarea matInput formControlName="comment"></textarea>
+        </mat-form-field>
+      </div>      
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-divider class="my-3"></mat-divider>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit()">
+            {{ data.task ? 'Salvar' : 'Criar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

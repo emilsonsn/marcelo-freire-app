@@ -9,4 +9,14 @@ export interface Midea {
   path: string;
   user?: User;
   service?: Service;
+  comments: Comment[];
+}
+
+
+
+export interface Comment {
+  id: number;
+  midea_id: number;
+  comment: string;
+  created_at: Date;
 }

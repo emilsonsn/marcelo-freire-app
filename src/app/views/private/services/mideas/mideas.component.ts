@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Midea } from '@models/midea';
 import { MideaService } from '@services/midea.service';
 import { DialogMideaComponent } from '@shared/dialogs/dialog-midea/dialog-midea.component';
+import { DialogShowCommentsComponent } from '@shared/dialogs/dialog-show-comments/dialog-show-comments.component';
 
 @Component({
   selector: 'app-mideas',
@@ -20,7 +21,8 @@ export class MideasComponent implements OnInit{
   constructor(
     private _route: ActivatedRoute,
     private _mideaService: MideaService,
-    private readonly _matDialog: MatDialog
+    private readonly _matDialog: MatDialog,
+    private readonly _dialog: MatDialog
   ){}
 
   ngOnInit() {
@@ -116,6 +118,14 @@ export class MideasComponent implements OnInit{
     return /\.(wav|mp3)$/i.test(path);
   }
   
+
+  openCommentsDialog(comments: any): void {
+    this._dialog.
+    open(DialogShowCommentsComponent, {
+      width: '600px',
+      data: comments 
+    });
+  }
   
 
 }

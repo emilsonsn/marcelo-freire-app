@@ -16,20 +16,17 @@
     <div class="loading" *ngIf="loading">
       <mat-spinner></mat-spinner>
     </div>
-    <div      
-      class="card"
-      *ngFor="let midea of mideas"
-    >
+    <div class="card" *ngFor="let midea of mideas">
       <div>
         <i class="fa-solid fa-user me-3"></i>
         {{ midea.user?.name }}
       </div>
-
+    
       <div>
         <i class="fa-solid fa-caret-right"></i>
         {{ midea.description }}
       </div>
-
+    
       <div class="media-preview">
         <img
           *ngIf="isImage(midea.path)"
@@ -37,25 +34,32 @@
           alt="Mídia não disponível"
           class="preview-image"
         />
-  
+    
         <video
           *ngIf="isVideo(midea.path)"
           [src]="midea.path"
           controls
           class="preview-video"
         ></video>
-  
+    
         <audio
           *ngIf="isAudio(midea.path)"
           [src]="midea.path"
           controls
           class="preview-audio"
         ></audio>
-  
+    
         <p *ngIf="!isImage(midea.path) && !isVideo(midea.path) && !isAudio(midea.path)">
           Arquivo não visualizável: {{ midea.path }}
         </p>
       </div>    
+    
+      <div class="comment-button mt-2">
+        <button (click)="openCommentsDialog(midea.comments)">
+          <i class="fa-solid fa-comment"></i> Comentários
+        </button>
+      </div>
     </div>
+    
   </div>
   

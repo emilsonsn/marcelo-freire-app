@@ -68,6 +68,16 @@
           .card div {
             margin-bottom: 5px;
           }
+
+          .comment-button button{
+            border: none;
+            box-shadow: 1px 2px 4px 2px grey;
+            padding: 5px 10px;
+            background-color: #002240;
+            color: white;
+            border-radius: 10px;
+          }
           
     }
 }
+

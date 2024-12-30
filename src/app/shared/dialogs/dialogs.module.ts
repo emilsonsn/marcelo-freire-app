@@ -24,15 +24,15 @@ import {NgxMaskDirective, NgxMaskPipe} from 'ngx-mask';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {DialogServiceComponent} from './dialog-service/dialog-service.component';
 import {DialogClientComponent} from './dialog-client/dialog-client.component';
-import {DialogTypeProviderComponent} from './dialog-type-provider/dialog-type-provider.component';
 import {TablesModule} from '@shared/tables/tables.module';
 import {DialogTypeServiceComponent} from './dialog-type-service/dialog-type-service.component';
 import {DialogTypeUserSectorComponent} from './dialog-type-user-sector/dialog-type-user-sector.component';
-import {DialogTaskComponent} from './dialog-task/dialog-task.component';
 import {MatIcon} from "@angular/material/icon";
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dialog-order-solicitation.component';
 import { DialogMideaComponent } from './dialog-midea/dialog-midea.component';
+import { DialogCommentComponent } from './dialog-comment/dialog-comment.component';
+import { DialogShowCommentsComponent } from './dialog-show-comments/dialog-show-comments.component';
 
 
 @NgModule({
@@ -42,10 +42,10 @@ import { DialogMideaComponent } from './dialog-midea/dialog-midea.component';
     DialogMideaComponent,
     DialogServiceComponent,
     DialogClientComponent,
-    DialogTypeProviderComponent,
+    DialogShowCommentsComponent,
     DialogTypeServiceComponent,
     DialogTypeUserSectorComponent,
-    DialogTaskComponent,
+    DialogCommentComponent,
     DialogOrderSolicitationComponent
   ],
   imports: [

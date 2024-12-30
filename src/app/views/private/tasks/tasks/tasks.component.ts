@@ -5,7 +5,7 @@ import {Task, TaskStatus} from "@models/Task";
 import {ApiResponse} from "@models/application";
 import {MatDialog} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
-import {DialogTaskComponent} from "@shared/dialogs/dialog-task/dialog-task.component";
+import {DialogTaskComponent} from "@shared/dialogs/dialog-comment/dialog-comment.component";
 import {UserService} from "@services/user.service";
 import {User} from "@models/user";
 import { ChangeDetectorRef } from '@angular/core';

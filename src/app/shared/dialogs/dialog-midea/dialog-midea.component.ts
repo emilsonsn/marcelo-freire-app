@@ -3,7 +3,6 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Supplier, SupplierType } from '@models/supplier';
-import { DialogTypeProviderComponent } from '../dialog-type-provider/dialog-type-provider.component';
 import { TypeProviderService } from '@services/type-provider.service';
 import { Utils } from '@shared/utils';
 import { Estados } from '@models/utils';

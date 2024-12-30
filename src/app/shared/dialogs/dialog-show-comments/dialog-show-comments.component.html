@@ -1,0 +1,28 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title>Comentários</h2>
+
+  <div mat-dialog-content>
+    <div *ngIf="comments.length; else noComments">
+      <div *ngFor="let comment of comments" class="comment">
+        <p>{{ comment.comment }}</p>
+        <small class="comment-date">Enviado em: {{ comment.created_at | date: 'short' }}</small>
+      </div>
+    </div>
+    
+    <ng-template #noComments>
+      <p>Nenhum comentário disponível.</p>
+    </ng-template>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>
