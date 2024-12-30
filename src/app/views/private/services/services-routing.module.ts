@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ServicesComponent} from "@app/views/private/services/services/services.component";
-import { MidiasComponent } from './midias/midias.component';
+import { MideasComponent } from './mideas/mideas.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: MidiasComponent
+    component: MideasComponent
   }
 ];
 

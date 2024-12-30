@@ -19,15 +19,15 @@ export class MideaService {
   public search(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<Midea>> {
     const paginate = Utils.mountPageControl(pageControl);
     const filterParams = Utils.mountPageControl(filters);
-    return this._http.get<ApiResponsePageable<Midea>>(`${environment.api}/${this.sessionEndpoint}/search`);
+    return this._http.get<ApiResponsePageable<Midea>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
-  public create(midea: Midea): Observable<ApiResponse<Midea>> {
+  public create(midea: FormData): Observable<ApiResponse<Midea>> {
     return this._http.post<ApiResponse<Midea>>(`${environment.api}/${this.sessionEndpoint}/create`, midea);
   }
 
-  public update(id: number, midea: Midea): Observable<ApiResponse<Midea>> {
-    return this._http.patch<ApiResponse<Midea>>(`${environment.api}/${this.sessionEndpoint}/${id}`, midea);
+  public update(id: number, midea: FormData): Observable<ApiResponse<Midea>> {
+    return this._http.post<ApiResponse<Midea>>(`${environment.api}/${this.sessionEndpoint}/${id}?_method=PATCH`, midea);
   }
 
   public delete(id: number): Observable<DeleteApiResponse> {

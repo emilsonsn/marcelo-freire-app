@@ -8,6 +8,7 @@ import { Client } from '@models/client';
 import { ClientService } from '@services/client.service';
 import { UserService } from '@services/user.service';
 import { User } from '@models/user';
+import { SessionService } from '@store/session.service';
 
 @Component({
   selector: 'app-dialog-service',
@@ -27,6 +28,7 @@ export class DialogServiceComponent {
 
   public clients: Client[];
   public users: User[];
+  public isAdmin = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -34,7 +36,7 @@ export class DialogServiceComponent {
     private readonly _dialogRef: MatDialogRef<DialogServiceComponent>,
     private readonly _fb: FormBuilder,
     private readonly _dialog: MatDialog,
-    private readonly _serviceService : ServiceService,
+    private readonly _sessionService : SessionService,
     private readonly _clientService : ClientService,
     private readonly _userService : UserService,
   ) { }
@@ -47,6 +49,7 @@ export class DialogServiceComponent {
       description: [null],
       client_id: [null, [Validators.required]],
       users: [null, [Validators.required]],
+      status: [null]
     })
 
     if (this._data?.service) {
@@ -62,6 +65,17 @@ export class DialogServiceComponent {
 
     this.getClients();
     this.getUsers();
+    this.loadPosition();
+  }
+
+  loadPosition(){
+    this._sessionService
+    .getUser()
+    .subscribe({
+      next: (user) => {
+        this.isAdmin = user.role == 'Admin';
+      }
+    })
   }
 
   getClients(){

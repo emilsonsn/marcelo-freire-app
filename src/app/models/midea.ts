@@ -1,3 +1,5 @@
+import { Service } from "./service";
+import { User } from "./user";
 
 export interface Midea {
   id: number;
@@ -5,4 +7,6 @@ export interface Midea {
   service_id: number;
   description: string;
   path: string;
+  user?: User;
+  service?: Service;
 }

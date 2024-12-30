@@ -1,0 +1,53 @@
+@import "variables";
+
+.upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.upload-btn {
+  margin-bottom: 10px;
+}
+
+.upload-hint {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.preview-area {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  max-width: 170px;
+}
+
+.preview-image,
+.preview-video {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.preview-audio {
+  width: 100%;
+}
+
+.file-name {
+  font-size: 0.85rem;
+  margin: 5px 0;
+  text-align: center;
+}

@@ -1,0 +1,71 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{ title }}</span>
+    <div matRipple class="close" (click)="onCancel()">
+      <i class="fa-solid fa-close"></i>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="form">
+    <div class="row">
+
+      <div class="col-12 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Descrição</mat-label>
+          <input matInput formControlName="description">
+        </mat-form-field>
+      </div>
+
+      <!-- Upload Area -->
+      <div class="col-12 mb-3">
+        <label for="file-upload" class="fw-bold mb-2">Upload de Arquivos</label>
+        <div class="upload-area" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+          <button mat-button class="upload-btn" (click)="fileInput.click()">Selecionar Arquivos</button>
+          <input
+            #fileInput
+            type="file"
+            multiple
+            accept=".jpg,.raw,.mov,.mp4,.wav,.mp3"
+            (change)="onFileSelected($event)"
+            hidden
+          />
+          <p class="upload-hint">Arraste e solte os arquivos ou clique no botão acima.</p>
+        </div>
+        <div class="preview-area" *ngIf="filePreviews.length > 0">
+          <div class="preview-item" *ngFor="let file of filePreviews; let i = index">
+            <img *ngIf="isImage(file)" [src]="file.preview" class="preview-image" />
+            <video *ngIf="isVideo(file)" [src]="file.preview" controls class="preview-video"></video>
+            <audio *ngIf="isAudio(file)" [src]="file.preview" controls class="preview-audio"></audio>
+            <p class="file-name">{{ file.name }}</p>
+            <button mat-icon-button color="warn" (click)="removeFile(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>      
+      
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="container">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      <div *ngIf="loading" class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        <div class="col-auto">
+          <button matRipple id="submit" class="button yellow" (click)="onSubmit(form)">
+            {{ isNewProvider ? 'Criar' : 'Salvar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>
