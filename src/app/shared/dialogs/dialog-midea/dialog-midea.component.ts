@@ -69,7 +69,6 @@ export class DialogMideaComponent {
 
   public onSubmit(form: FormGroup): void {
     if (!form.valid) {
-      console.log(this.form.controls);
       form.markAllAsTouched();
       return;
     } else {

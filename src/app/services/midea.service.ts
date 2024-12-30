@@ -26,6 +26,11 @@ export class MideaService {
     return this._http.get<ApiResponsePageable<Midea>>(`${environment.api}/${this.sessionEndpoint}/code/${code}`);
   }
 
+  download(code: string) {
+    const url = `${environment.api}/${this.sessionEndpoint}/download/${code}`;
+    return this._http.get<Blob>(url, { responseType: 'blob' as 'json' });
+  }
+
   public create(midea: FormData): Observable<ApiResponse<Midea>> {
     return this._http.post<ApiResponse<Midea>>(`${environment.api}/${this.sessionEndpoint}/create`, midea);
   }

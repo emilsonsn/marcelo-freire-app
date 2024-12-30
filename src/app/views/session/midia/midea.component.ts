@@ -107,5 +107,28 @@ export class MideaComponent {
           })
         })
     }
+
+    downloadFiles() {
+      const code = this.form.get('code').value;
+    
+      this._mideaService.download(code)
+      .subscribe({
+        next: (response: Blob) => {
+          const blob = new Blob([response], { type: 'application/zip' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `mideas-${new Date().toISOString()}.zip`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          console.error('Erro ao baixar arquivos:', error);
+        }
+      });
+    }
+    
   
 }
