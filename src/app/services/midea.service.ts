@@ -26,8 +26,13 @@ export class MideaService {
     return this._http.get<ApiResponsePageable<Midea>>(`${environment.api}/${this.sessionEndpoint}/code/${code}`);
   }
 
-  download(code: string) {
+  download(code: string|number) {
     const url = `${environment.api}/${this.sessionEndpoint}/download/${code}`;
+    return this._http.get<Blob>(url, { responseType: 'blob' as 'json' });
+  }
+
+  downloadOne(midea_id: string|number) {
+    const url = `${environment.api}/${this.sessionEndpoint}/download-one/${midea_id}`;
     return this._http.get<Blob>(url, { responseType: 'blob' as 'json' });
   }
 

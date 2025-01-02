@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DialogConfirmComponent implements OnInit {
 
-  public text: string = 'Você tem certeza?';
+  public text: string = 'Você tem certeza? Essa ação não pode ser revertida';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
