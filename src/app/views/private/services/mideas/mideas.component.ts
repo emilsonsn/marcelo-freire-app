@@ -85,7 +85,7 @@ export class MideasComponent implements OnInit{
     .create(media)
     .subscribe({
       next: res => {
-        this.mideas.push(res.data);
+        this.getMidea();
         this.loading = false;
       },
       error: error => {
@@ -100,7 +100,7 @@ export class MideasComponent implements OnInit{
     .update(id, media)
     .subscribe({
       next: res => {
-        this.mideas.push(res.data);
+        this.getMidea();
         this.loading = false;
       },
       error: error => {

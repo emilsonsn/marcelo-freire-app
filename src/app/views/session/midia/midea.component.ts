@@ -32,7 +32,7 @@ export class MideaComponent {
 
   ngOnInit(){
     this.form = this.fb.group({
-      code: ['51496', [Validators.required]]
+      code: ['', [Validators.required]]
     });
 
     this.onSubmit();
@@ -94,6 +94,10 @@ export class MideaComponent {
           })
         .afterClosed()
         .subscribe((comment) => {
+          if(!comment){
+            return;
+          }
+          
           this._mideaService
           .addComment(comment)
           .subscribe({

@@ -108,12 +108,11 @@ export class HomeComponent {
   };
 
   ngOnInit() {
-    this.initChart();
-
     this._dashboardService
       .getDashboardCards()
       .subscribe((c: ApiResponse<OrderData>) => {
         this.dashboardCards.set(c.data);
+        this.initChart();
       });
   }
 

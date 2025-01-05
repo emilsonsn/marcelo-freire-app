@@ -60,11 +60,11 @@ export class ServicesComponent {
   }
 
   getServices(filters?: any) {
-    this._initOrStopLoading();
+    this.loading = true;
   
     this._serviceService
       .getServices({}, filters)
-      .pipe(finalize(() => this._initOrStopLoading()))
+      .pipe(finalize(() => this.loading = false))
       .subscribe((res) => {
           this.services = res.data;
       });
@@ -135,7 +135,9 @@ export class ServicesComponent {
       });
   }
 
-  onDeleteService(id: number) {
+  onDeleteService(id: number, event) {
+    event.preventDefault();
+    event.stopPropagation();
     const text = 'Tem certeza? Essa ação não pode ser revertida!';
     this._dialog
       .open(DialogConfirmComponent, { data: { text } })
@@ -148,13 +150,14 @@ export class ServicesComponent {
   }
 
   private _deleteService(id: number) {
-    this._initOrStopLoading();
+    this.loading = true;
     this._serviceService
       .deleteService(id)
-      .pipe(finalize(() => this._initOrStopLoading()))
+      .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (res) => {
           this._toastr.success(res.message);
+          this.getServices();
         },
         error: (err) => {
           this._toastr.error(err.error.error);

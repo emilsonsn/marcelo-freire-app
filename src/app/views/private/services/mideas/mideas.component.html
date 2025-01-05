@@ -59,7 +59,10 @@
       </div>    
     
       <div class="comment-button mt-2">
-        <button (click)="openCommentsDialog(midea.comments)">
+        <button (click)="openCommentsDialog(midea.comments)" class="btn-comments">
+          <span class="count" *ngIf="midea?.comments?.length">
+            {{ midea?.comments?.length }}
+          </span>
           <i class="fa-solid fa-comment"></i> Comentários
         </button>
 

@@ -55,7 +55,7 @@
       <div class="btn" (click)="goToMidia($event, service.id)">
         <i class="fa-solid fa-photo-film"></i>
       </div>
-      <div *ngIf="isAdmin" class="ms-2 btn delete" (click)="onDeleteService(service.id)">
+      <div *ngIf="isAdmin" class="ms-2 btn delete" (click)="onDeleteService(service.id, $event)">
         <i class="fa-solid fa-trash"></i>
       </div>
     </div>
