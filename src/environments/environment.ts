@@ -2,7 +2,7 @@ declare const require: any;
 
 export const environment = {
   production: false,
-  appName: 'Frontend App',
+  appName: 'Marcelo Freire',
   home: '/painel/home',
   api: 'http://127.0.0.1:8000/api',
   version: require('../../package.json').version
