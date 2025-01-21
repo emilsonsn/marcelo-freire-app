@@ -65,6 +65,7 @@ header {
 
         &:hover {
           background-color: $primary;
+          color: white !important;
           opacity: .9;
         }
 
@@ -112,7 +113,7 @@ header {
 
           &:hover {
             background-color: $primary;
-            color: $black-600;
+            color: white !important;
             box-shadow: 0 0 10px 0 rgba(223, 198, 255, 0.37);
           }
 
