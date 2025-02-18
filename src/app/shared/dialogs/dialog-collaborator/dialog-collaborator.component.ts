@@ -39,12 +39,12 @@ export class DialogCollaboratorComponent {
   ngOnInit(): void {
 
     this.form = this._fb.group({
-      id: [null],
-      name: [null, [Validators.required]],
-      cpf_cnpj: [null, [Validators.required]],
-      birth_date: [null],
-      phone: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      id: [''],
+      name: ['', [Validators.required]],
+      cpf_cnpj: [''],
+      function: [''],
+      phone: [''],
+      email: ['', [Validators.required]],
     })
 
     if (this._data?.user) {
@@ -120,15 +120,12 @@ export class DialogCollaboratorComponent {
     } else {
 
       const formData = new FormData();
-      formData.append('id', form.get('id')?.value);
-      formData.append('name', form.get('name')?.value);
-      formData.append('cpf_cnpj', form.get('cpf_cnpj')?.value);
-      formData.append('birth_date', dayjs(form.get('birth_date')?.value).format('YYYY-MM-DD'));
-      formData.append('company_position_id', form.get('company_position_id')?.value);
-      formData.append('sector_id', form.get('sector_id')?.value);
-      formData.append('phone', form.get('phone')?.value);
-      formData.append('whatsapp', form.get('whatsapp')?.value);
-      formData.append('email', form.get('email')?.value);
+      formData.append('id', form.get('id').value);
+      formData.append('name', form.get('name').value);
+      formData.append('cpf_cnpj', form.get('cpf_cnpj').value ?? '');
+      formData.append('function', form.get('function').value ?? '');
+      formData.append('phone', form.get('phone').value ?? '');
+      formData.append('email', form.get('email').value ?? '');
 
       formData.append('photo', this.profileImageFile);
 

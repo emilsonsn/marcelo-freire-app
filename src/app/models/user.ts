@@ -6,6 +6,7 @@ export interface User {
   cpf : string;
   cpf_cnpj: string;
   birth_date: Date;
+  function: string;
   role: string;
   createdAt : string;
   updatedAt : string;

@@ -42,15 +42,9 @@ export class TableUserComponent {
       align: "justify-content-center",
     },
     {
-      slug: "cpf_cnpj",
+      slug: "function",
       order: true,
-      title: "CPF/CNPJ",
-      align: "justify-content-center",
-    },
-    {
-      slug: "birth_date",
-      order: true,
-      title: "Data de nascimento",
+      title: "Função",
       align: "justify-content-center",
     },
     {

@@ -42,12 +42,10 @@
         </mat-form-field>
       </div>
 
-      <div class=" col-md-6 col-12 mb-3">
+      <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
-          <mat-label>Data de nascimento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="birth_date">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-label>Função</mat-label>
+          <input matInput type="text" formControlName="function">
         </mat-form-field>
       </div>
       

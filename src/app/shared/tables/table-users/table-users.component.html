@@ -55,17 +55,12 @@
             </td>
               <td>
                 <div class="text-center">
-                  {{ collaborator?.cpf_cnpj | cpfCnpjMask }}
+                  {{ collaborator?.function ?? 'Não especificada' }}
                 </div>
               </td>
               <td>
                 <div class="text-center">
-                  {{ collaborator?.birth_date | date: "dd/MM/YYYY" }}
-                </div>
-              </td>
-              <td>
-                <div class="text-center">
-                  {{ collaborator?.phone }}
+                  {{ collaborator?.phone | phoneMask}}
                 </div>
               </td>
               <td>
