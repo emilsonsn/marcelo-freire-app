@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Midea } from '@models/midea';
@@ -7,7 +8,7 @@ import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-co
 import { DialogMideaComponent } from '@shared/dialogs/dialog-midea/dialog-midea.component';
 import { DialogShowCommentsComponent } from '@shared/dialogs/dialog-show-comments/dialog-show-comments.component';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-mideas',
@@ -19,27 +20,44 @@ export class MideasComponent implements OnInit{
   service_id: number;
   loading: boolean = false;
   mideas: Midea[];
-  
+  form: FormGroup;
 
   constructor(
     private _route: ActivatedRoute,
     private _mideaService: MideaService,
     private readonly _matDialog: MatDialog,
     private readonly _dialog: MatDialog,
-    private readonly _toarstr: ToastrService
+    private readonly _toarstr: ToastrService,
+    private readonly _fb: FormBuilder,
   ){}
 
   ngOnInit() {
+    this.form = this._fb.group({
+      search_term: [''],
+      order_by: [''],
+      order: ['']
+    });
+
     this._route.params.subscribe(params => {
       this.service_id = params['id'];
       this.getMidea();
-  });
+    });
 
+    this.form.valueChanges
+      .pipe(debounceTime(200))    
+      .subscribe(() => {
+        this.getMidea();
+      });
   }
 
   getMidea(){
     this._mideaService
-    .search({}, {service_id : this.service_id})
+    .search({}, {
+      service_id : this.service_id,
+      search_term: this.form.get('search_term').value,
+      order_by: this.form.get('order_by').value,
+      order: this.form.get('order').value
+    })
     .subscribe({
       next: res => {
         this.mideas = res.data;

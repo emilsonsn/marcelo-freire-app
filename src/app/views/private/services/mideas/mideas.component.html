@@ -9,6 +9,31 @@
     </button>
 </div>
 
+<hr>
+
+<form [formGroup]="form" class="col-12 row">
+  <div class="col-md-3">
+    <label for="">Buscar</label>
+    <input formControlName="search_term" class="form-control" type="text" placeholder="Buscar...">
+  </div>
+
+  <div class="col-md-3">
+    <label for="">Ordenar por</label>
+    <select formControlName="order_by" class="form-control" name="" id="">
+      <option value="description">Descrição</option>
+      <option value="created_at">Data de inserção</option>
+    </select>
+  </div>
+
+  <div class="col-md-3">
+    <label for="">Forma de ordenação</label>
+    <select formControlName="order" class="form-control" name="" id="">
+      <option value="ASC">Ascendente</option>
+      <option value="DESC">Decrescente</option>
+    </select>
+  </div>
+</form>
+
   <div class="cards" *ngIf="!mideas?.length">
     <h3>
       <i class="fa-solid fa-caret-right"></i>
