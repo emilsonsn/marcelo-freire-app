@@ -80,20 +80,63 @@ export class MideasComponent implements OnInit{
       });
   }
 
-  createMidea(media: FormData){
-    this._mideaService
-    .create(media)
-    .subscribe({
-      next: res => {
-        this.getMidea();
-        this.loading = false;
-      },
-      error: error => {
-        this.loading = false;
-        console.error('Error:', error);
+  createMidea(media: FormData) {
+    this.loading = true;
+  
+    // Extrai os arquivos do FormData
+    const files: File[] = [];
+    media.forEach((value, key) => {
+      if (key.startsWith("mideas[")) {
+        files.push(value as File);
       }
-    })
+    });
+  
+    // Divide os arquivos em grupos de 3
+    const batchSize = 3;
+    const batches = this.chunkArray(files, batchSize);
+  
+    // Função assíncrona para enviar cada lote separadamente
+    const uploadBatch = async () => {
+      for (const batch of batches) {
+        const formData = new FormData();
+  
+        // Adiciona os demais campos do formulário
+        media.forEach((value, key) => {
+          if (!key.startsWith("mideas[")) {
+            formData.append(key, value);
+          }
+        });
+  
+        // Adiciona os arquivos do lote atual
+        batch.forEach((file, index) => {
+          formData.append(`mideas[${index}]`, file);
+        });
+  
+        try {
+          await this._mideaService.create(formData).toPromise();
+          this._toarstr.success(`Enviado ${batch.length} arquivos com sucesso!`);
+        } catch (error) {
+          this._toarstr.error('Erro ao enviar arquivos.');
+          console.error(error);
+          break; // Para o processo caso ocorra erro
+        }
+      }
+      this.loading = false;
+      this.getMidea(); // Atualiza a lista de mídias
+    };
+  
+    uploadBatch();
   }
+  
+  /**
+   * Divide um array em grupos menores
+   */
+  private chunkArray<T>(array: T[], size: number): T[][] {
+    return Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
+      array.slice(i * size, i * size + size)
+    );
+  }
+  
   
   updateMidea(id: number, media: FormData){
     this._mideaService
