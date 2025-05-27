@@ -119,7 +119,6 @@ export class MideasComponent implements OnInit{
           if(midea.get('id')){
             this.updateMidea(midea.get('id'), midea);
           }else{
-            alert('teste');
             this.createMidea(midea);
           }
         }
