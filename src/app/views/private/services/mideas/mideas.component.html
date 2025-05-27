@@ -5,58 +5,88 @@
     </button>
 
     <button matRipple class="button yellow w-110" (click)="openMideaDialog()">
-      <i class="fa-solid fa-circle-plus"></i> Nova Mídia
+      <i class="fa-solid fa-circle-plus"></i> Criar
     </button>
+
+    <button matRipple class="button yellow w-110 me-2 ms-2" (click)="folderInput.click()">
+      <i class="fa-solid fa-folder-open"></i> Subir Pasta
+    </button>
+    <input
+      type="file"
+      #folderInput
+      webkitdirectory
+      multiple
+      hidden
+      (change)="onFolderUpload($event)"
+    >
+
+    <div class="d-flex justify-content-end mb-3">
+      <button matRipple class="button yellow me-2" (click)="viewMode = 'grid'">
+        <i class="fa-solid fa-th"></i>
+      </button>
+      <button matRipple class="button yellow" (click)="viewMode = 'list'">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
 </div>
 
 <hr>
 
 <form [formGroup]="form" class="col-12 row">
-  <div class="col-md-3">
+  <div class="col-md-3 mb-3">
     <label for="">Buscar</label>
     <input formControlName="search_term" class="form-control" type="text" placeholder="Buscar...">
   </div>
 
-  <div class="col-md-3">
-    <label for="">Ordenar por</label>
-    <select formControlName="order_by" class="form-control" name="" id="">
-      <option value="description">Descrição</option>
-      <option value="created_at">Data de inserção</option>
-    </select>
-  </div>
-
-  <div class="col-md-3">
-    <label for="">Forma de ordenação</label>
-    <select formControlName="order" class="form-control" name="" id="">
-      <option value="ASC">Ascendente</option>
-      <option value="DESC">Decrescente</option>
-    </select>
+  <div class="col-md-4">
+    <button *ngIf="parentStack.length" (click)="goBack()" class="btn btn-secondary mb-3 mt-3">
+      <i class="fa-solid fa-arrow-left"></i> Voltar
+    </button>
   </div>
 </form>
 
-  <div class="cards" *ngIf="!mideas?.length">
-    <h3>
-      <i class="fa-solid fa-caret-right"></i>
-      Nenhuma mídia para esse serviço.
-    </h3>
+<div class="cards" *ngIf="!mideas?.length">
+  <h3>
+    <i class="fa-solid fa-caret-right"></i>
+    Nenhuma mídia para esse serviço.
+  </h3>
+</div>
+
+<div class="cards" *ngIf="mideas?.length && viewMode === 'grid'">
+  <div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
   </div>
-  
-  <div class="cards" *ngIf="mideas?.length">
-    <div class="loading" *ngIf="loading">
-      <mat-spinner></mat-spinner>
+  <div
+  class="card"
+  *ngFor="let midea of mideas; let i = index"
+  [class.selected]="selectedMideas.has(midea.id)"
+  [draggable]="true"
+  (dragstart)="onDragStart(midea)"
+  (drop)="onDrop(midea)"
+  (click)="onSelect(midea, i, $event)"
+  (dragover)="allowDrop($event)"
+  >
+    <div>
+      <i class="fa-solid fa-user me-3"></i>
+      {{ midea.user?.name }}
     </div>
-    <div class="card" *ngFor="let midea of mideas">
-      <div>
-        <i class="fa-solid fa-user me-3"></i>
-        {{ midea.user?.name }}
-      </div>
-    
-      <div>
-        <i class="fa-solid fa-caret-right"></i>
+  
+    <div>
+      <i class="fa-solid" [ngClass]="midea.type === 'folder' ? 'fa-folder' : 'fa-file'"></i>
+      <span (click)="midea.type === 'folder' ? enterFolder(midea) : null">
         {{ midea.description }}
-      </div>
+      </span>
+    </div>
+
+    <ng-container *ngIf="midea.type === 'folder'">
+      <div class="d-flex justify-content-center" (click)="enterFolder(midea)">
+        <i class="fa-solid fa-folder folder-ico"></i>
+      </div>      
+    </ng-container>
     
-      <div class="media-preview">
+    <ng-container *ngIf="midea.type !== 'folder'">
+      <div class="media-preview d-flex justify-content-center">
         <img
           *ngIf="isImage(midea.path)"
           [src]="midea.path"
@@ -81,25 +111,93 @@
         <p *ngIf="!isImage(midea.path) && !isVideo(midea.path) && !isAudio(midea.path)">
           Arquivo não visualizável: {{ midea.path }}
         </p>
-      </div>    
-    
-      <div class="comment-button mt-2">
-        <button (click)="openCommentsDialog(midea.comments)" class="btn-comments">
-          <span class="count" *ngIf="midea?.comments?.length">
-            {{ midea?.comments?.length }}
-          </span>
-          <i class="fa-solid fa-comment"></i> Comentários
-        </button>
-
-        <button (click)="download(midea.id)" class="ms-2">
-          <i class="fa-solid fa-download"></i> Baixar
-        </button>
-
-        <button (click)="onDelete(midea.id)" class="ms-2 delete">
-          <i class="fa-solid fa-trash"></i>
-        </button>
       </div>
+    </ng-container>
+      
+    <div class="comment-button mt-2 d-flex justify-content-center">
+      <button ng-container *ngIf="midea.type !== 'folder'" (click)="openCommentsDialog(midea.comments)" class="btn-comments">
+        <span class="count" *ngIf="midea?.comments?.length">
+          {{ midea?.comments?.length }}
+        </span>
+        <i class="fa-solid fa-comment"></i>
+      </button>
+
+      <button (click)="download(midea.id)" class="ms-2">
+        <i class="fa-solid fa-download"></i>
+      </button>
+
+      <button (click)="onDelete(midea.id)" class="ms-2 delete">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+
+      <button *ngIf="parentStack.length" (click)="moveToPreviousFolder(midea)" class="ms-2">
+        <i class="fa-solid fa-arrow-up"></i>
+      </button>
+
     </div>
-    
   </div>
+</div>
   
+
+<div class="table-responsive" *ngIf="mideas?.length && viewMode === 'list'">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th (click)="sort('description')">
+          Nome
+          <i class="fa-solid" [ngClass]="getSortIcon('description')"></i>
+        </th>
+        <th (click)="sort('size')">
+          Tamanho
+          <i class="fa-solid" [ngClass]="getSortIcon('size')"></i>
+        </th>
+        <th (click)="sort('media_type')">
+          Tipo
+          <i class="fa-solid" [ngClass]="getSortIcon('media_type')"></i>
+        </th>
+        <th (click)="sort('updated_at')">
+          Última modificação
+          <i class="fa-solid" [ngClass]="getSortIcon('updated_at')"></i>
+        </th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let midea of mideas; let i = index"
+          [class.selected]="selectedMideas.has(midea.id)"
+          (click)="onSelect(midea, i, $event)"
+          [draggable]="true"
+          (dragstart)="onDragStart(midea)"
+          (drop)="onDrop(midea)"
+          (dragover)="allowDrop($event)">
+        <td (dblclick)="midea.type === 'folder' ? enterFolder(midea) : null">
+          <i class="fa-solid" [ngClass]="midea.type === 'folder' ? 'fa-folder' : 'fa-file'"></i>
+          <span class="ms-2">
+            {{ midea.description }}
+          </span>
+        </td>
+        <td>{{ midea.size ? (midea.size / 1024 | number:'1.0-2') + ' KB' : '-' }}</td>
+        <td>{{ midea.media_type || '-' }}</td>
+        <td>{{ midea.updated_at | date: 'short' }}</td>
+        <td>
+          <div class="d-flex justify-content-end">
+            <button *ngIf="midea.type !== 'folder'" (click)="openCommentsDialog(midea.comments)" class="btn btn-sm btn-comments me-1">
+              <i class="fa-solid fa-comment"></i>
+            </button>
+            <button (click)="download(midea.id)" class="btn btn-sm btn-primary me-1">
+              <i class="fa-solid fa-download"></i>
+            </button>
+            <button (click)="onDelete(midea.id)" class="btn btn-sm btn-danger ">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+  
+            <button *ngIf="parentStack.length" (click)="moveToPreviousFolder(midea)" class="ms-2 btn btn-sm btn-secondary">
+              <i class="fa-solid fa-arrow-up"></i>
+            </button>
+          </div>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

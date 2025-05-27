@@ -5,14 +5,18 @@ export interface Midea {
   id: number;
   user_id: number;
   service_id: number;
+  parent_id: number;
+  type: 'folder' | 'midea';
   description: string;
   path: string;
   user?: User;
-  service?: Service;
+  size: number;
+  service?: Service;  
   comments: Comment[];
+  create_at: Date;
+  updated_at: Date;
+  media_type: string;
 }
-
-
 
 export interface Comment {
   id: number;

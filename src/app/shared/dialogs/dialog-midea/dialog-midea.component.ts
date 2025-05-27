@@ -33,7 +33,7 @@ export class DialogMideaComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    private readonly _data: {midea: Midea, service_id: number},
+    private readonly _data: {midea: Midea, service_id: number, parent_id: number},
     private readonly _dialogRef: MatDialogRef<DialogMideaComponent>,
     private readonly _fb: FormBuilder,
   ) { }
@@ -46,9 +46,12 @@ export class DialogMideaComponent {
       path: [''],
       user_id: [''],
       service_id: [''],
+      parent_id: [''],
+      type: ['folder'],
     })
 
     this.form.get('service_id').patchValue(this._data.service_id);
+    this.form.get('parent_id').patchValue(this._data.parent_id);
 
     if (this._data?.midea) {
       this.isNewProvider = false;

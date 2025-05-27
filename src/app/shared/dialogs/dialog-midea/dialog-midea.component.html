@@ -18,8 +18,14 @@
         </mat-form-field>
       </div>
 
-      <!-- Upload Area -->
       <div class="col-12 mb-3">
+        <mat-checkbox formControlName="type" [checked]="form.get('type').value === 'folder'" (change)="form.get('type').setValue($event.checked ? 'folder' : 'media')">
+          Criar como pasta
+        </mat-checkbox>
+      </div>
+
+      <!-- Upload Area -->
+      <div class="col-12 mb-3" *ngIf="form.get('type').value === 'media'">
         <label for="file-upload" class="fw-bold mb-2">Upload de Arquivos</label>
         <div class="upload-area" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
           <button mat-button class="upload-btn" (click)="fileInput.click()">Selecionar Arquivos</button>

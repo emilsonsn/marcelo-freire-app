@@ -4,6 +4,15 @@
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 20px;
+
+    .selection-box {
+      position: absolute;
+      border: 2px dashed #007bff;
+      background-color: rgba(0, 123, 255, 0.1);
+      pointer-events: none;
+      z-index: 1000;
+    }
+
     .card{
         padding: 15px;
         cursor: pointer;
@@ -12,6 +21,11 @@
         width: 95%;
         max-width: 300px;
         margin: 10px 10px 10px 0;
+
+        &.selected {
+          border: 2px solid #007bff;
+          background-color: #e7f1ff;
+        }
 
         & div{
             margin: 5px 0;
@@ -39,6 +53,10 @@
             margin-bottom: 10px;
         }
 
+        .folder-ico{
+          font-size: 8rem;          
+        }
+
         .media-preview {
             margin-top: 10px;
           }
@@ -46,7 +64,7 @@
           .preview-image,
           .preview-video {
             max-width: 100%;
-            max-height: 200px;
+            height: 150px !important;
             border-radius: 8px;
             display: block;
           }
@@ -101,4 +119,10 @@
 
 .button-download{
   background: #4EA696;
+}
+
+.table-hover tbody tr.selected {
+  background-color: #e7f1ff;
+  border-left: 4px solid #007bff;
+  cursor: pointer;
 }
