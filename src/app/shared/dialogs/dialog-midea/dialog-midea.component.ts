@@ -20,7 +20,7 @@ import { MideaService } from '@services/midea.service';
 export class DialogMideaComponent {
 
   public isNewProvider: boolean = true;
-  public title: string = 'Novo mídia';
+  public title: string = 'Criar pasta/mídia';
 
   public form: FormGroup;
 
