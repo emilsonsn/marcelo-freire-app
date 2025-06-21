@@ -6,4 +6,5 @@ export interface ISmallInformationCard {
   description: string;
   color?: string;
   background?: string;
+  admin?: boolean;
 }

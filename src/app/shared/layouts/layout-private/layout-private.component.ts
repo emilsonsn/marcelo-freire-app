@@ -22,22 +22,26 @@ export class LayoutPrivateComponent {
       label: 'Home',
       icon: 'fa-solid fa-house',
       route: '/painel/home',
-      active: true
+      active: true,
+      admin: false
     },
     {
       label: 'Serviços',
       icon: 'fa-solid fa-photo-film',
-      route: '/painel/services'
+      route: '/painel/services',
+      admin: false
     },
     {
       label: 'Colaboradores',
       icon: 'fa-solid fa-user-tie',
-      route: '/painel/collaborator'
+      route: '/painel/collaborator',
+      admin: true
     },
     {
       label: 'Clientes',
       icon: 'fa-solid fa-people-group',
-      route: '/painel/client'
+      route: '/painel/client',
+      admin: true
     },
   ]
 
@@ -46,11 +50,7 @@ export class LayoutPrivateComponent {
   user: User;
 
   constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef,
     private readonly _sidebarService: SidebarService,
-    private readonly _userService: UserService,
-    private readonly _sessionService: SessionService,
     private readonly _sessionQuery : SessionQuery
   ) { }
 
@@ -66,9 +66,7 @@ export class LayoutPrivateComponent {
         this.user = user;
 
         if(user?.role == 'Manager')
-          this.permitedMenuItem = this.menuItem.filter(item =>
-            item.label !== 'Usuários'
-          );
+          this.permitedMenuItem = this.menuItem.filter(item => ! item.admin);
         else
           this.permitedMenuItem = this.menuItem;
       }

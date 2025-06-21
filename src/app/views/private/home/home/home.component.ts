@@ -5,6 +5,7 @@ import {DashboardService} from "@services/dashboard.service";
 import {ApiResponse} from "@models/application";
 import {OrderData} from "@models/dashboard";
 import {formatCurrency} from "@angular/common";
+import { SessionQuery } from '@store/session.query';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,10 @@ export class HomeComponent {
     }
   );
 
-  constructor(private readonly _dashboardService: DashboardService) {}
+  constructor(
+    private readonly _dashboardService: DashboardService,
+    private readonly _sessionQuery: SessionQuery
+  ) {}
 
   itemsShopping: Signal<ISmallInformationCard[]> = computed<ISmallInformationCard[]>(() => [
     {
@@ -31,6 +35,7 @@ export class HomeComponent {
       title: this.dashboardCards().totalClients,
       category: 'Clientes',
       description: 'Total de clientes',
+      admin: true
     },
     {
       icon: 'fa-solid fa-user-gear',
@@ -39,6 +44,7 @@ export class HomeComponent {
       title: this.dashboardCards().totalUsers,
       category: 'Colaboradores',
       description: 'Total de colaboradores',
+      admin: true
     },
     {
       icon: 'fa-solid fa-photo-film',
@@ -47,6 +53,7 @@ export class HomeComponent {
       title: this.dashboardCards().totalServices,
       category: 'Serviços',
       description: 'Total de Serviços do mês',
+      admin: false
     },
   ]);
   
@@ -108,6 +115,14 @@ export class HomeComponent {
   };
 
   ngOnInit() {
+    this._sessionQuery.user$.subscribe(user => {
+      if(user?.role == 'Manager'){
+        this.itemsShopping = signal(
+          this.itemsShopping().filter(item => !item.admin)
+        );
+      }
+    })
+
     this._dashboardService
       .getDashboardCards()
       .subscribe((c: ApiResponse<OrderData>) => {
